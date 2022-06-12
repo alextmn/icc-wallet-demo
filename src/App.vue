@@ -1,6 +1,6 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="ICC Solana Wallet Demo"/>
+  <HelloWorld msg="ICC-Solana (QNT) Wallet Demo"/>
 </template>
 
 <script>

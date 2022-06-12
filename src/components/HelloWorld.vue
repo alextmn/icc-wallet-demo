@@ -3,33 +3,33 @@
     <h1>{{ msg }}</h1>
 
     <div v-if="step === 0">
-      <h2>Step 1: Generate Delithium ICC Key Pair</h2>
+      <h2>Step 1: Generate ICC Key Pair</h2>
 
     </div>
     <div v-if="step === 1">
       <h2>Step 2: Create Transaction</h2>
           <hr><br /><br />
-      <span><b>Wallet Delithium Secret Key</b></span><br />
-      <textarea v-model="sk" style="width: 900px; height: 100px;"></textarea><br />
-      <span><b>Wallet Delithium Public Key</b></span><br />
-      <textarea v-model="sk" style="width: 900px; height: 100px;"></textarea><br />
+      <span><b>Wallet ICC Secret Key</b></span><br />
+      <textarea v-model="sk" style="width: 900px; height: 200px;"></textarea><br />
+      <span><b>Wallet ICC Public Key</b></span><br />
+      <textarea v-model="pk" style="width: 900px; height: 200px;"></textarea><br />
     </div>
     <div v-if="step === 2">
       <h2>Step 3: Create Transaction and Sign</h2>
-      <span><b>ICC Destination Address</b></span><br />
+      <span><b>ICC Destination Address [ SHA - 256]</b></span><br />
       <input v-model="sha256" style="width: 900px;" /><br />
       <span><b>Value</b></span><br />
-      <input value="100" style="width: 900px;" /><br /><br />
+      <textarea value="100"  /><br /><br />
     </div>
     <div v-if="step === 3">
       <h2>Step 4: Verify ICC Transaction by Validators</h2>
       <span><b>ICC Wallet Transaction Signature</b></span><br />
-      <textarea v-model="sk" style="width: 900px; height: 100px;"></textarea><br />
+      <textarea v-model="sk" style="width: 900px; height: 200px;"></textarea><br />
     </div>
     <div v-if="step === 4">
       <h2>Step 4: Put Transaction on Solana</h2>
       <span><b>ICC Validator Signature</b></span><br />
-      <input v-model="sha256" style="width: 900px;" /><br />
+      <textarea v-model="pk" style="width: 900px; height: 200px;" /><br />
     </div>
      <div v-if="step === 5">
       <h2>Step 5: Solana output</h2>
@@ -67,7 +67,8 @@ export default {
     },
     next: function () {
       this.sk = this.makeid(1024)
-      this.sha256 = this.makeid(1024)
+      this.pk = this.makeid(1524)
+      this.sha256 = this.makeid(128)
       this.isExecuting = true;
       setTimeout(() => {
         this.isExecuting = false;
