@@ -1,18 +1,21 @@
 <template>
   <div class="hello">
     <div v-if="step === 0">
-      <h2>Step #1: Generate ICC Key Pair</h2>
+      <h2>Step #1: Generate IRONCAP Keypair (i.e. Quantum-Safe Wallet)</h2>
+      <div style="height:400px" />
     </div>
     <div v-if="step === 1">
-      <h2>Step #2: Create Transaction</h2>
+      <h2>Step #2: Create Transaction (Smart Contract)</h2>
       <hr />
       <br /><br />
       <div class="ll">
+        <div>&nbsp;</div>
         <textarea v-model="sk" class="ta"></textarea>
         <span><b>Wallet ICC Secret Key</b></span>
         <div>&nbsp;</div>
       </div>
       <div class="ll">
+        <div>&nbsp;</div>
         <textarea v-model="pk" class="ta"></textarea>
         <span
           ><b
@@ -24,14 +27,18 @@
       </div>
     </div>
     <div v-if="step === 2">
-      <h2>Step #3: Create Transaction and Sign</h2>
+      <h2>Step #3: Create and Sign the Transaction</h2>
       <div class="ll">
+        <div>&nbsp;</div>
         <textarea v-model="sha256" class="ta" />
-        <span><b>ICC Destination Address [ SHA - 256]</b></span>
+        <span><b>Destination Wallet Address</b></span>
         <div>&nbsp;</div>
       </div>
       <div class="ll">
-        <textarea value="100" class="ta" />
+        <div>&nbsp;</div>
+        <div>&nbsp;</div>
+        <input value="100"  />
+        <div>&nbsp;</div>
         <span><b>Value</b></span>
         <div>&nbsp;</div>
       </div>
@@ -39,6 +46,7 @@
     <div v-if="step === 3">
       <h2>Step #4: Verify ICC Transaction by Validators</h2>
       <div class="ll">
+        <div>&nbsp;</div>
         <textarea v-model="sk" class="ta"></textarea>
         <span><b>ICC Wallet Transaction Signature</b></span>
 
@@ -48,6 +56,7 @@
     <div v-if="step === 4">
       <h2>Step #5: Put Transaction on Solana</h2>
       <div class="ll">
+        <div>&nbsp;</div>
         <textarea v-model="pk" style="width: 900px; height: 200px" />
         <span><b>ICC Validator Signature</b></span>
         <div>&nbsp;</div>
@@ -135,10 +144,11 @@ a {
   min-height: 100px;
   min-width: 100px;
   font-size: 40px;
+   margin: 20px;
 }
 .ll {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
   margin: 10px;
 }
@@ -146,5 +156,9 @@ a {
 .ta {
   min-width: 700px;
   min-height: 200px;
+}
+h2 {
+  font-size: 20px;
+  margin-left: -100px;
 }
 </style>
