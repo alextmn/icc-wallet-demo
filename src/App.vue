@@ -1,5 +1,5 @@
 <template>
-<div style="display: flex; justify-content: space-between;">
+<div style="display: flex; justify-content: space-between;  padding:20px;">
   <div>&nbsp;</div>
   <div style="font-size: 30px; align-self: flex-end;">ICC-Solana (QNT) Wallet Demo</div>
   <img alt="Vue logo" src="./assets/qnt.png" style="wight:100px; height:50px; align-self: right;" />
@@ -28,5 +28,6 @@ export default {
   margin-top: 60px;
   min-height: 400px;
   background-image: url('assets/background.png') ;
+  background-size:100% auto;
 }
 </style>

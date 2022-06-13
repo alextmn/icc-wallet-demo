@@ -2,10 +2,10 @@
   <div class="hello">
     <div v-if="step === 0">
       <h2>Step #1: Generate IRONCAP Keypair (i.e. Quantum-Safe Wallet)</h2>
-      <div style="height:400px" />
+     <div style="height:400px" />
     </div>
     <div v-if="step === 1">
-      <h2>Step #2: Create Transaction (Smart Contract)</h2>
+      <h2 style="margin-left: -140px;">Step #2: Create Transaction (Smart Contract)</h2>
       <hr />
       <br /><br />
       <div class="ll">
@@ -27,7 +27,7 @@
       </div>
     </div>
     <div v-if="step === 2">
-      <h2>Step #3: Create and Sign the Transaction</h2>
+      <h2 style="margin-left: -140px;">Step #3: Create and Sign the Transaction</h2>
       <div class="ll">
         <div>&nbsp;</div>
         <textarea v-model="sha256" class="ta" />
@@ -44,7 +44,7 @@
       </div>
     </div>
     <div v-if="step === 3">
-      <h2>Step #4: Verify ICC Transaction by Validators</h2>
+      <h2 style="margin-left: -140px;">Step #4: Verify ICC Transaction by Validators</h2>
       <div class="ll">
         <div>&nbsp;</div>
         <textarea v-model="sk" class="ta"></textarea>
@@ -63,7 +63,7 @@
       </div>
     </div>
     <div v-if="step === 5">
-      <h2>Step #6: Solana output</h2>
+      <h2 style="margin-left: -140px;">Step #6: Solana output</h2>
       <span><b>TODO: print solana confirmation</b></span>
     </div>
   </div>
@@ -159,6 +159,9 @@ a {
 }
 h2 {
   font-size: 20px;
-  margin-left: -100px;
+   padding-left:20px;
+   padding-right:20px;
+   margin-left: -100px;
+  
 }
 </style>
