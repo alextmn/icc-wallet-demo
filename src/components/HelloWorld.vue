@@ -1,83 +1,114 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-
     <div v-if="step === 0">
-      <h2>Step 1: Generate ICC Key Pair</h2>
-
+      <h2>Step #1: Generate ICC Key Pair</h2>
     </div>
     <div v-if="step === 1">
-      <h2>Step 2: Create Transaction</h2>
-          <hr><br /><br />
-      <span><b>Wallet ICC Secret Key</b></span><br />
-      <textarea v-model="sk" style="width: 900px; height: 200px;"></textarea><br />
-      <span><b>Wallet ICC Public Key</b></span><br />
-      <textarea v-model="pk" style="width: 900px; height: 200px;"></textarea><br />
+      <h2>Step #2: Create Transaction</h2>
+      <hr />
+      <br /><br />
+      <div class="ll">
+        <textarea v-model="sk" class="ta"></textarea>
+        <span><b>Wallet ICC Secret Key</b></span>
+        <div>&nbsp;</div>
+      </div>
+      <div class="ll">
+        <textarea v-model="pk" class="ta"></textarea>
+        <span
+          ><b
+            >Wallet ICC Public Key<br />
+            (wallet address)</b
+          ></span
+        >
+        <div>&nbsp;</div>
+      </div>
     </div>
     <div v-if="step === 2">
-      <h2>Step 3: Create Transaction and Sign</h2>
-      <span><b>ICC Destination Address [ SHA - 256]</b></span><br />
-      <input v-model="sha256" style="width: 900px;" /><br />
-      <span><b>Value</b></span><br />
-      <textarea value="100"  /><br /><br />
+      <h2>Step #3: Create Transaction and Sign</h2>
+      <div class="ll">
+        <textarea v-model="sha256" class="ta" />
+        <span><b>ICC Destination Address [ SHA - 256]</b></span>
+        <div>&nbsp;</div>
+      </div>
+      <div class="ll">
+        <textarea value="100" class="ta" />
+        <span><b>Value</b></span>
+        <div>&nbsp;</div>
+      </div>
     </div>
     <div v-if="step === 3">
-      <h2>Step 4: Verify ICC Transaction by Validators</h2>
-      <span><b>ICC Wallet Transaction Signature</b></span><br />
-      <textarea v-model="sk" style="width: 900px; height: 200px;"></textarea><br />
+      <h2>Step #4: Verify ICC Transaction by Validators</h2>
+      <div class="ll">
+        <textarea v-model="sk" class="ta"></textarea>
+        <span><b>ICC Wallet Transaction Signature</b></span>
+
+        <div>&nbsp;</div>
+      </div>
     </div>
     <div v-if="step === 4">
-      <h2>Step 4: Put Transaction on Solana</h2>
-      <span><b>ICC Validator Signature</b></span><br />
-      <textarea v-model="pk" style="width: 900px; height: 200px;" /><br />
+      <h2>Step #5: Put Transaction on Solana</h2>
+      <div class="ll">
+        <textarea v-model="pk" style="width: 900px; height: 200px" />
+        <span><b>ICC Validator Signature</b></span>
+        <div>&nbsp;</div>
+      </div>
     </div>
-     <div v-if="step === 5">
-      <h2>Step 5: Solana output</h2>
-      <span><b>TODO: print solana confirmation</b></span><br />
+    <div v-if="step === 5">
+      <h2>Step #6: Solana output</h2>
+      <span><b>TODO: print solana confirmation</b></span>
     </div>
   </div>
-  <span v-if="isExecuting">Wait....</span>
-  <button @click="next()" v-if="!isExecuting && step < 5">
-    Next >
-  </button>
+  <div style="display: flex; justify-content: space-between">
+    <div>&nbsp;</div>
+    <span class="nextBtn" v-if="isExecuting">Wait....</span>
+    <button class="nextBtn" @click="next()" v-if="!isExecuting && step < 5">
+      Next >
+    </button>
+
+    <img
+      src="../assets/logo.png"
+      style="wight: 100px; height: 100px; align-self: flex-end"
+    />
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'ICC Demo',
+  name: "ICC Demo",
   data() {
     return {
       step: 0,
       isExecuting: false,
-    }
+    };
   },
   props: {
-    msg: String
+    msg: String,
   },
   methods: {
     makeid: function (length) {
-      let result = '';
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = "";
+      const characters =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       const charactersLength = characters.length;
       for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() *
-          charactersLength));
+        result += characters.charAt(
+          Math.floor(Math.random() * charactersLength)
+        );
       }
       return result;
     },
     next: function () {
-      this.sk = this.makeid(1024)
-      this.pk = this.makeid(1524)
-      this.sha256 = this.makeid(128)
+      this.sk = this.makeid(1024);
+      this.pk = this.makeid(1524);
+      this.sha256 = this.makeid(128);
       this.isExecuting = true;
       setTimeout(() => {
         this.isExecuting = false;
         this.step++;
       }, 1000);
-
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -98,5 +129,22 @@ li {
 
 a {
   color: #42b983;
+}
+
+.nextBtn {
+  min-height: 100px;
+  min-width: 100px;
+  font-size: 40px;
+}
+.ll {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+}
+
+.ta {
+  min-width: 700px;
+  min-height: 200px;
 }
 </style>

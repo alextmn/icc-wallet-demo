@@ -1,6 +1,10 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="ICC-Solana (QNT) Wallet Demo"/>
+<div style="display: flex; justify-content: space-between;">
+  <div>&nbsp;</div>
+  <div style="font-size: 30px; align-self: flex-end;">ICC-Solana (QNT) Wallet Demo</div>
+  <img alt="Vue logo" src="./assets/qnt.png" style="wight:100px; height:50px; align-self: right;" />
+</div>
+  <HelloWorld msg=""/>
 </template>
 
 <script>
@@ -20,7 +24,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: black;
   margin-top: 60px;
+  min-height: 400px;
+  background-image: url('assets/background.png') ;
 }
 </style>
