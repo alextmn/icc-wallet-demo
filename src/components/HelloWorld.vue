@@ -47,7 +47,7 @@
       <h2 style="margin-left: -140px;">Step #4: Verify ICC Transaction by Validators</h2>
       <div class="ll">
         <div>&nbsp;</div>
-        <textarea v-model="sk" class="ta"></textarea>
+        <textarea v-model="iccSignature" class="ta"></textarea>
         <span><b>ICC Wallet Transaction Signature</b></span>
 
         <div>&nbsp;</div>
@@ -57,14 +57,14 @@
       <h2>Step #5: Put Transaction on Solana</h2>
       <div class="ll">
         <div>&nbsp;</div>
-        <textarea v-model="pk" style="width: 900px; height: 200px" />
+        <textarea v-model="iccValidatorResponse" style="width: 900px; height: 200px" />
         <span><b>ICC Validator Signature</b></span>
         <div>&nbsp;</div>
       </div>
     </div>
     <div v-if="step === 5">
-      <h2 style="margin-left: -140px;">Step #6: Solana output</h2>
-      <span><b>TODO: print solana confirmation</b></span>
+      <h2 style="margin-left: -140px;">Step #6: Solana transaction</h2>
+      <span style="font-size:12px;"><b>{{solTx}}</b></span>
     </div>
   </div>
   <div style="display: flex; justify-content: space-between">
@@ -82,12 +82,16 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: "ICC Demo",
   data() {
     return {
       step: 0,
       isExecuting: false,
+      mainUrl: 'http://54.174.187.1:3000',
+      dstAddress: 'vtYZ4PebDAe6TxFG7QaqxlghZQaZhTOVi3QOyjgyRKA=',
     };
   },
   props: {
@@ -106,16 +110,77 @@ export default {
       }
       return result;
     },
-    next: function () {
-      this.sk = this.makeid(1024);
-      this.pk = this.makeid(1524);
-      this.sha256 = this.makeid(128);
+    next: async function () {
+      // this.sk = this.makeid(1024);
+      // this.pk = this.makeid(1524);
+      // this.sha256 = this.makeid(128);
       this.isExecuting = true;
-      setTimeout(() => {
-        this.isExecuting = false;
-        this.step++;
-      }, 1000);
+      if (this.step === 0)  {
+        await this.keyPair();
+      } if (this.step === 2) {
+        await this.iccSign();
+      } if (this.step === 3) {
+        await this.iccValidatorSign();
+      } if (this.step === 4) {
+        await this.solanaTx();
+      }
+      
+      this.isExecuting = false;
+      this.step++;
+      // setTimeout(() => {
+      //   this.isExecuting = false;
+      //   this.step++;
+      // }, 1000);
     },
+
+    keyPair: async function () {
+      try {
+        const url = `${this.mainUrl}/keypair`;
+        console.log('executing', url)
+        const { data } = await axios.post(`${this.mainUrl}/keypair`)
+        console.log(data)
+        this.sk = data.sk; 
+        this.pk = data.pk; 
+        this.sha256 = data.pkHash; 
+      } catch (e) {
+        console.log(e)
+        alert("Cound not generate key pair, error:" + e)
+      }
+    },
+
+    iccSign: async function () {
+      this.signMsg = 
+        JSON.stringify({pk:this.sha256, anount: 100, address: this.dstAddress })
+      console.log('message to sign',this.signMsg)
+      const { data } = await axios.post(`${this.mainUrl}/wallet-sign`, {
+        msg:this.signMsg,
+        sk: this.sk,
+     })
+      console.log('response',data)
+      this.iccSignature=data.iccSignature;
+      this.walletSignature=data.walletSignature;
+    },
+    iccValidatorSign: async function () {
+
+      console.log('icc validator message to sign',this.signMsg)
+      const { data } = await axios.post(`${this.mainUrl}/validator-sign`, {
+        msg:this.signMsg,
+        msgSigned: this.walletSignature,
+        pkHash:this.sha256
+        
+     })
+      
+      const iccValidatorSignature=data.validatorResponse;
+      iccValidatorSignature.to_account = this.dstAddress;
+      iccValidatorSignature.value = 100;
+      console.log('iccValidatorSignature',iccValidatorSignature)
+      this.iccValidatorResponse= JSON.stringify(iccValidatorSignature);
+    },
+    solanaTx: async function() {
+      const { data } = await axios.post(`${this.mainUrl}/solana-tx`, this.iccValidatorResponse)
+      this.solTx = data;
+      console.log('solana tx:',data)
+    }
   },
 };
 </script>
